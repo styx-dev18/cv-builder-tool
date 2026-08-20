@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import type { SectionItemMap, SectionType } from '@/types/cv'
+import { SECTION_LABELS } from '@/types/cv'
 
 const required = (fieldLabel: string) =>
   z.string().trim().min(1, `${fieldLabel} is required`)
@@ -144,3 +145,25 @@ export function validateItems<T extends SectionType>(
 export function hasAnyErrors(errorsList: FieldErrors<object>[]): boolean {
   return errorsList.some((errors) => Object.keys(errors).length > 0)
 }
+
+const sectionTypeSchema = z.enum(
+  Object.keys(SECTION_LABELS) as [SectionType, ...SectionType[]],
+)
+
+const cvSectionSchema = z.object({
+  id: z.string(),
+  type: sectionTypeSchema,
+  title: z.string(),
+  items: z.array(z.record(z.string(), z.unknown())),
+})
+
+export const cvSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  sections: z.array(cvSectionSchema),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  schemaVersion: z.number(),
+})
+
+export type ParsedCV = z.infer<typeof cvSchema>

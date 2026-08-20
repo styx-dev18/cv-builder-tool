@@ -26,6 +26,9 @@ export function LanguagesSection({ section, isEditing, onStopEdit }: Props) {
   if (isEditing) {
     return (
       <div className="flex flex-col gap-5">
+        <h2 className="border-b border-border pb-1 text-sm font-bold uppercase">
+          {section.title}
+        </h2>
         {draftItems.map((item, index) => {
           const itemErrors = errors[index] ?? {}
           return (
@@ -76,7 +79,7 @@ export function LanguagesSection({ section, isEditing, onStopEdit }: Props) {
       <h2 className="border-b border-border pb-1 text-sm font-bold uppercase">
         {section.title}
       </h2>
-      <p className="text-sm">
+      <p className="ml-2 mb-1 text-sm">
         {languages.length > 0 ? (
           languages.map((item, index) => (
             <span key={item.id}>

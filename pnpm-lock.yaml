@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@fontsource/archivo':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@fontsource/open-sans':
         specifier: ^5.3.0
         version: 5.3.0
@@ -430,6 +433,9 @@ packages:
 
   '@floating-ui/utils@0.2.12':
     resolution: {integrity: sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==}
+
+  '@fontsource/archivo@5.3.0':
+    resolution: {integrity: sha512-5DIMgPVJRi62OqdOVoogCFxP73EkNM/E0YVTSDIQlDEJfDbxqZduwM/YoNZwC9Sx1CDgpKinqf8ckRY1QNIecw==}
 
   '@fontsource/open-sans@5.3.0':
     resolution: {integrity: sha512-V1bdMlGNyZrJwzrdusshMOw2YR0aqYDL7kOo9dkxUEKl8dFv66A9HLckOOXl572sG/7ohhDQrCrTFGSn9LZcSw==}
@@ -4907,6 +4913,8 @@ snapshots:
       react-dom: 19.2.8(react@19.2.8)
 
   '@floating-ui/utils@0.2.12': {}
+
+  '@fontsource/archivo@5.3.0': {}
 
   '@fontsource/open-sans@5.3.0': {}
 

@@ -63,16 +63,18 @@ export function SummarySection({ section, isEditing, onStopEdit }: Props) {
 
   return (
     <div className="flex flex-col gap-2">
-      {item.content ? (
-        <div
-          className="prose prose-sm max-w-none text-sm [&_ol]:list-decimal [&_ol]:pl-5 [&_ul]:list-disc [&_ul]:pl-5"
-          dangerouslySetInnerHTML={{ __html: item.content }}
-        />
-      ) : (
-        <p className="text-sm text-muted-foreground">
-          {PLACEHOLDERS.summary.content}
-        </p>
-      )}
+      <div className="ml-2 mb-1">
+        {item.content ? (
+          <div
+            className="prose prose-sm max-w-none text-sm [&_ol]:list-decimal [&_ol]:pl-5 [&_ul]:list-disc [&_ul]:pl-5"
+            dangerouslySetInnerHTML={{ __html: item.content }}
+          />
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            {PLACEHOLDERS.summary.content}
+          </p>
+        )}
+      </div>
     </div>
   )
 }

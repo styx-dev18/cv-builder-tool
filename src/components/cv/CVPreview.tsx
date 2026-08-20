@@ -133,7 +133,7 @@ export function CVPreview() {
   const removeSection = useCVStore((s) => s.removeSection)
 
   return (
-    <div className="mx-auto flex max-w-5xl flex-col gap-4 rounded-xl border border-border bg-card p-8 shadow-sm">
+    <div className="flex flex-col gap-4 w-236.25 rounded-xl bg-card p-6 shadow-sm">
       <div className="flex flex-col">
         {sections.map((section, index) => {
           const isEditing = editingSectionIds.has(section.id)
@@ -144,7 +144,6 @@ export function CVPreview() {
               isFirst={index === 0}
               isLast={index === sections.length - 1}
               onEdit={() => startEditingSection(section.id)}
-              onStopEdit={() => stopEditingSection(section.id)}
               onMoveUp={() => moveSectionUp(section.id)}
               onMoveDown={() => moveSectionDown(section.id)}
               onDelete={() => removeSection(section.id)}

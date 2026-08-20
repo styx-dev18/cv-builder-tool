@@ -12,6 +12,42 @@ interface Props {
   onStopEdit: () => void
 }
 
+type PersonalInformation = {
+  value: string
+  placeholder: string
+  required: boolean
+  link: boolean
+}
+
+function PersonalInformationRow({ items }: { items: PersonalInformation[] }) {
+  return (
+    <div className="mt-1 flex flex-wrap items-center justify-center gap-x-1.5 text-sm text-muted-foreground">
+      {items.map((item, index) => (
+        <span key={item.value || `placeholder-${index}`} className="flex items-center gap-1.5">
+          {index > 0 && <span>•</span>}
+          {
+            item.link ? (
+              <a
+                href={`https://${item.value}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground underline-offset-4 hover:underline"
+              >
+                {item.value || item.placeholder}
+              </a>
+            ) : (
+              <span className="text-muted-foreground underline-offset-4 hover:underline">
+                {item.value || item.placeholder}
+              </span>
+            )
+          }
+        </span>
+      ))}
+    </div>
+  );
+}
+
+
 export function PersonalInfoSection({ section, isEditing, onStopEdit }: Props) {
   const updateItem = useCVStore((s) => s.updateItem)
   const item = section.items[0]
@@ -125,12 +161,15 @@ export function PersonalInfoSection({ section, isEditing, onStopEdit }: Props) {
     )
   }
 
-  const links = [
-    { value: item.email, placeholder: PLACEHOLDERS.personalInfo.email, required: true },
-    { value: item.phone, placeholder: PLACEHOLDERS.personalInfo.phone, required: true },
-    { value: item.linkedin, required: false },
-    { value: item.github, required: false },
-    { value: item.otherLink, required: false },
+  const first_row: PersonalInformation[] = [
+    { value: item.email, placeholder: PLACEHOLDERS.personalInfo.email, required: true,  link:false },
+    { value: item.phone, placeholder: PLACEHOLDERS.personalInfo.phone, required: true, link:false },
+    { value: item.linkedin, placeholder: PLACEHOLDERS.personalInfo.linkedin, required: false, link:true },
+  ].filter((link) => link.required || link.value)
+
+  const second_row: PersonalInformation[] = [
+    { value: item.github, placeholder: PLACEHOLDERS.personalInfo.github, required: false, link:true },
+    { value: item.otherLink, placeholder: PLACEHOLDERS.personalInfo.otherLink, required: false, link:true },
   ].filter((link) => link.required || link.value)
 
   return (
@@ -142,25 +181,8 @@ export function PersonalInfoSection({ section, isEditing, onStopEdit }: Props) {
           </span>
         )}
       </h1>
-      {item.location && (
-        <p className="text-sm text-muted-foreground">{item.location}</p>
-      )}
-      <p className="mt-1 flex flex-wrap items-center justify-center gap-x-1.5 text-sm text-muted-foreground">
-        {links.map((link, index) => (
-          <span key={link.value || `placeholder-${index}`} className="flex items-center gap-1.5">
-            {index > 0 && <span>&middot;</span>}
-            <span
-              className={
-                link.value
-                  ? 'text-primary underline-offset-4 hover:underline'
-                  : 'text-muted-foreground'
-              }
-            >
-              {link.value || link.placeholder}
-            </span>
-          </span>
-        ))}
-      </p>
+      <PersonalInformationRow items={first_row} />
+      <PersonalInformationRow items={second_row} />
     </div>
   )
 }

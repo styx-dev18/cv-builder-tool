@@ -127,7 +127,10 @@ export function createSection(type: SectionType): AnyCVSection {
   }
 }
 
+export const CV_SCHEMA_VERSION = 1
+
 export function createEmptyCV(title = 'Untitled CV'): CV {
+  const now = new Date().toISOString()
   return {
     id: nanoid(),
     title,
@@ -139,5 +142,24 @@ export function createEmptyCV(title = 'Untitled CV'): CV {
       createSection('skills'),
       createSection('projects'),
     ],
+    createdAt: now,
+    updatedAt: now,
+    schemaVersion: CV_SCHEMA_VERSION,
+  }
+}
+
+export function duplicateCV(cv: CV, newTitle?: string): CV {
+  const now = new Date().toISOString()
+  return {
+    ...cv,
+    id: nanoid(),
+    title: newTitle ?? `${cv.title} (Copy)`,
+    sections: cv.sections.map((section) => ({
+      ...section,
+      id: nanoid(),
+      items: section.items.map((item) => ({ ...item, id: nanoid() })),
+    })),
+    createdAt: now,
+    updatedAt: now,
   }
 }

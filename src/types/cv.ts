@@ -135,6 +135,9 @@ export interface CV {
   id: string
   title: string
   sections: AnyCVSection[]
+  createdAt: string
+  updatedAt: string
+  schemaVersion: number
 }
 
 export const SECTION_LABELS: Record<SectionType, string> = {

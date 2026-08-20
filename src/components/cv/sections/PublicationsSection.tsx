@@ -33,6 +33,9 @@ export function PublicationsSection({ section, isEditing, onStopEdit }: Props) {
   if (isEditing) {
     return (
       <div className="flex flex-col gap-5">
+        <h2 className="border-b border-border pb-1 text-sm font-bold uppercase">
+          {section.title}
+        </h2>
         {draftItems.map((item, index) => {
           const itemErrors = errors[index] ?? {}
           return (
@@ -95,7 +98,7 @@ export function PublicationsSection({ section, isEditing, onStopEdit }: Props) {
         {section.title}
       </h2>
       {section.items.map((item) => (
-        <div key={item.id} className="flex items-baseline justify-between gap-2">
+        <div key={item.id} className="ml-2 mb-1 flex items-baseline justify-between gap-2">
           <div>
             <p className="font-semibold">
               {item.title || (

@@ -1,6 +1,6 @@
 import type { CVSection } from '@/types/cv'
 import { Separator } from '@/components/ui/separator'
-import { DateChipField } from './DateChipField'
+import { MonthYearDateField } from './MonthYearDateField'
 import { EntryDeleteButton } from './EntryDeleteButton'
 import { InputField } from './Field'
 import { PLACEHOLDERS } from './placeholders'
@@ -27,6 +27,9 @@ export function EducationSection({ section, isEditing, onStopEdit }: Props) {
   if (isEditing) {
     return (
       <div className="flex flex-col gap-5">
+        <h2 className="border-b border-border pb-1 text-sm font-bold uppercase">
+          {section.title}
+        </h2>
         {draftItems.map((item, index) => {
           const itemErrors = errors[index] ?? {}
           return (
@@ -35,7 +38,7 @@ export function EducationSection({ section, isEditing, onStopEdit }: Props) {
             <div className="flex flex-col gap-3">
               <div className="flex items-start justify-between gap-2">
                 <InputField
-                  label="School"
+                  label="Educational Institution Name"
                   htmlFor={`${item.id}-school`}
                   required
                   className="flex-1"
@@ -68,20 +71,20 @@ export function EducationSection({ section, isEditing, onStopEdit }: Props) {
                     patchDraft(item.id, { honors: e.target.value })
                   }
                 />
-                <DateChipField
+                <MonthYearDateField
                   label="Start Date"
                   htmlFor={`${item.id}-startDate`}
                   required
-                  placeholder="Month Year"
+                  placeholder="MM/YYYY"
                   value={item.startDate}
                   error={itemErrors.startDate}
                   onChange={(value) => patchDraft(item.id, { startDate: value })}
                 />
-                <DateChipField
+                <MonthYearDateField
                   label="End Date"
                   htmlFor={`${item.id}-endDate`}
                   required
-                  placeholder="Month Year"
+                  placeholder="MM/YYYY"
                   value={item.endDate}
                   error={itemErrors.endDate}
                   onChange={(value) => patchDraft(item.id, { endDate: value })}
@@ -109,50 +112,52 @@ export function EducationSection({ section, isEditing, onStopEdit }: Props) {
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-2">
       <h2 className="border-b border-border pb-1 text-sm font-bold uppercase">
         {section.title}
       </h2>
       {section.items.map((item) => {
         const hasDate = item.startDate || item.endDate
         return (
-          <div key={item.id} className="flex items-start justify-between gap-2">
-            <div>
-              <p className="font-semibold">
-                {item.degree || (
-                  <span className="font-normal text-muted-foreground">
-                    {PLACEHOLDERS.education.degree}
-                  </span>
-                )}
-              </p>
-              <p className="text-sm">
-                {item.school || (
-                  <span className="text-muted-foreground">
-                    {PLACEHOLDERS.education.school}
-                  </span>
-                )}
-              </p>
-              {item.honors && (
-                <p className="pl-4 text-sm text-muted-foreground">{item.honors}</p>
-              )}
-            </div>
-            <div className="shrink-0 text-right text-sm">
-              <p>
-                {hasDate ? (
-                  <>
-                    {item.startDate}
-                    {(item.startDate || item.endDate) && ' - '}
-                    {item.endDate}
-                  </>
-                ) : (
-                  PLACEHOLDERS.education.dateRange
-                )}
-              </p>
-              {item.gpa && (
-                <p>
-                  <span className="font-semibold">GPA:</span> {item.gpa}
+          <div key={item.id} className="ml-2 mb-1">
+            <div className="flex items-start text-sm justify-between gap-2">
+              <div>
+                <p className="font-bold">
+                  {item.degree || (
+                    <span className="text-muted-foreground">
+                      {PLACEHOLDERS.education.degree}
+                    </span>
+                  )}
                 </p>
-              )}
+                <p className="text-sm">
+                  {item.school || (
+                    <span className="text-muted-foreground">
+                      {PLACEHOLDERS.education.school}
+                    </span>
+                  )}
+                </p>
+                {item.honors && (
+                  <p className="text-sm text-muted-foreground">{item.honors}</p>
+                )}
+              </div>
+              <div className="shrink-0 text-right text-sm">
+                <p>
+                  {hasDate ? (
+                    <>
+                      {item.startDate}
+                      {(item.startDate || item.endDate) && ' - '}
+                      {item.endDate}
+                    </>
+                  ) : (
+                    PLACEHOLDERS.education.dateRange
+                  )}
+                </p>
+                {item.gpa && (
+                  <p>
+                    <span className="font-semibold">GPA:</span> {item.gpa}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         )

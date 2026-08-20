@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { ChevronDown, ChevronUp, Pencil, Trash2, X } from 'lucide-react'
+import { ChevronDown, ChevronUp, Pencil, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Tooltip,
@@ -13,7 +13,6 @@ interface SectionWrapperProps {
   isFirst: boolean
   isLast: boolean
   onEdit: () => void
-  onStopEdit: () => void
   onMoveUp: () => void
   onMoveDown: () => void
   onDelete: () => void
@@ -25,7 +24,6 @@ export function SectionWrapper({
   isFirst,
   isLast,
   onEdit,
-  onStopEdit,
   onMoveUp,
   onMoveDown,
   onDelete,
@@ -34,45 +32,36 @@ export function SectionWrapper({
   return (
     <div
       className={cn(
-        'group relative rounded-lg border border-transparent p-4 transition-colors',
+        'group relative rounded-lg border border-transparent px-4 py-2 transition-colors',
         isEditing
-          ? 'bg-muted/30'
+          ? 'bg-muted'
           : 'hover:bg-muted/90',
       )}
     >
-      <div
-        className={cn(
-          'absolute -top-4 right-3 z-10 flex items-center gap-0.5 rounded-md border border-border bg-popover p-0.5 opacity-0 shadow-sm transition-opacity',
-          isEditing ? 'opacity-100' : 'group-hover:opacity-100',
-        )}
-      >
-        {isEditing ? (
-          <ActionButton label="Done" onClick={onStopEdit}>
-            <X className="size-4" />
-          </ActionButton>
-        ) : (
+      {!isEditing && (
+        <div className="absolute -top-4 right-3 z-10 flex items-center gap-0.5 rounded-md border border-border bg-popover p-0.5 opacity-0 shadow-sm transition-opacity group-hover:opacity-100">
           <ActionButton label="Edit section" onClick={onEdit}>
             <Pencil className="size-4" />
           </ActionButton>
-        )}
-        <ActionButton
-          label="Move up"
-          onClick={onMoveUp}
-          disabled={isFirst}
-        >
-          <ChevronUp className="size-4" />
-        </ActionButton>
-        <ActionButton
-          label="Move down"
-          onClick={onMoveDown}
-          disabled={isLast}
-        >
-          <ChevronDown className="size-4" />
-        </ActionButton>
-        <ActionButton label="Delete section" onClick={onDelete} destructive>
-          <Trash2 className="size-4" />
-        </ActionButton>
-      </div>
+          <ActionButton
+            label="Move up"
+            onClick={onMoveUp}
+            disabled={isFirst}
+          >
+            <ChevronUp className="size-4" />
+          </ActionButton>
+          <ActionButton
+            label="Move down"
+            onClick={onMoveDown}
+            disabled={isLast}
+          >
+            <ChevronDown className="size-4" />
+          </ActionButton>
+          <ActionButton label="Delete section" onClick={onDelete} destructive>
+            <Trash2 className="size-4" />
+          </ActionButton>
+        </div>
+      )}
       {children}
     </div>
   )

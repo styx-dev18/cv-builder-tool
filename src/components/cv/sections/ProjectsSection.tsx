@@ -1,6 +1,7 @@
 import { ExternalLink } from 'lucide-react'
 import type { CVSection } from '@/types/cv'
 import { Separator } from '@/components/ui/separator'
+import { toExternalHref } from '@/lib/utils'
 import { EntryDeleteButton } from './EntryDeleteButton'
 import { InputField, TextareaField } from './Field'
 import { PLACEHOLDERS } from './placeholders'
@@ -27,6 +28,9 @@ export function ProjectsSection({ section, isEditing, onStopEdit }: Props) {
   if (isEditing) {
     return (
       <div className="flex flex-col gap-5">
+        <h2 className="border-b border-border pb-1 text-sm font-bold uppercase">
+          {section.title}
+        </h2>
         {draftItems.map((item, index) => {
           const itemErrors = errors[index] ?? {}
           return (
@@ -87,8 +91,8 @@ export function ProjectsSection({ section, isEditing, onStopEdit }: Props) {
         {section.title}
       </h2>
       {section.items.map((item) => (
-        <div key={item.id}>
-          <p className="flex items-center gap-1 font-semibold">
+        <div key={item.id} className="ml-2 mb-1">
+          <p className="flex text-sm items-center gap-1 font-semibold">
             {item.name || (
               <span className="font-normal text-muted-foreground">
                 {PLACEHOLDERS.projects.name}
@@ -96,7 +100,7 @@ export function ProjectsSection({ section, isEditing, onStopEdit }: Props) {
             )}
             {item.link && (
               <a
-                href={item.link}
+                href={toExternalHref(item.link)}
                 target="_blank"
                 rel="noreferrer"
                 aria-label={`Open ${item.name || 'project'} link`}
@@ -107,7 +111,7 @@ export function ProjectsSection({ section, isEditing, onStopEdit }: Props) {
             )}
           </p>
           {item.description && (
-            <p className="pl-4 text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               {item.description}
             </p>
           )}

@@ -4,7 +4,7 @@ import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { generateJobDescription } from '@/services/aiService'
 import type { FieldErrors } from '@/schemas/cvSchemas'
-import { DateChipField } from './DateChipField'
+import { MonthYearDateField } from './MonthYearDateField'
 import { EntryDeleteButton } from './EntryDeleteButton'
 import { InputField } from './Field'
 import { RichTextEditor } from './RichTextEditor'
@@ -33,6 +33,9 @@ export function ExperienceSection({ section, isEditing, onStopEdit }: Props) {
   if (isEditing) {
     return (
       <div className="flex flex-col gap-5">
+        <h2 className="border-b border-border pb-1 text-sm font-bold uppercase">
+          {section.title}
+        </h2>
         {draftItems.map((item, index) => (
           <ExperienceItemEditor
             key={item.id}
@@ -54,32 +57,25 @@ export function ExperienceSection({ section, isEditing, onStopEdit }: Props) {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
       <h2 className="border-b border-border pb-1 text-sm font-bold uppercase">
         {section.title}
       </h2>
       {section.items.map((item) => {
         const hasDate = item.startDate || item.endDate || item.current
         return (
-          <div key={item.id}>
-            <div className="flex items-baseline justify-between gap-2">
-              <p className="font-semibold">
+          <div key={item.id} className="mb-1 ml-2">
+            <div className="flex font-bold text-sm items-baseline justify-between gap-2">
+              <p>
                 {item.position ? (
                   item.position
                 ) : (
-                  <span className="font-normal text-muted-foreground">
+                  <span className="text-muted-foreground">
                     {PLACEHOLDERS.experience.position}
                   </span>
                 )}
-                {item.company ? (
-                  ` · ${item.company}`
-                ) : (
-                  <span className="font-normal text-muted-foreground">
-                    {` · ${PLACEHOLDERS.experience.company}`}
-                  </span>
-                )}
               </p>
-              <p className="shrink-0 text-xs text-muted-foreground">
+              <p className="shrink-0">
                 {hasDate ? (
                   <>
                     {item.startDate}
@@ -87,20 +83,38 @@ export function ExperienceSection({ section, isEditing, onStopEdit }: Props) {
                     {item.current ? 'Present' : item.endDate}
                   </>
                 ) : (
-                  PLACEHOLDERS.experience.dateRange
+                  <span className="text-muted-foreground">
+                    {PLACEHOLDERS.experience.dateRange}
+                  </span>
                 )}
               </p>
             </div>
-            <p className="text-xs text-muted-foreground">
-              {item.location || PLACEHOLDERS.experience.location}
-            </p>
+            <div className="flex text-sm font-bold items-baseline justify-between gap-2">
+              <p>
+                {item.company ? (
+                    `${item.company}`
+                  ) : (
+                    <span className="shrink-0 text-muted-foreground">
+                      {PLACEHOLDERS.experience.company}
+                    </span>
+                  )}
+              </p>
+              <p>
+                {item.location ?
+                  (
+                    `${item.location}`
+                  ) :
+                  (<span className="shrink-0 text-muted-foreground">{PLACEHOLDERS.experience.location}</span>)
+                }
+              </p>
+            </div>
             {item.description ? (
               <div
-                className="prose prose-sm mt-1 max-w-none text-sm [&_ol]:list-decimal [&_ol]:pl-5 [&_ul]:list-disc [&_ul]:pl-5"
+                className="prose prose-sm max-w-none text-sm [&_ol]:list-decimal [&_ol]:pl-5 [&_ul]:list-disc [&_ul]:pl-5"
                 dangerouslySetInnerHTML={{ __html: item.description }}
               />
             ) : (
-              <p className="mt-1 text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground">
                 {PLACEHOLDERS.experience.description}
               </p>
             )}
@@ -175,20 +189,20 @@ function ExperienceItemEditor({
             error={errors.location}
             onChange={(e) => onChange({ location: e.target.value })}
           />
-          <DateChipField
+          <MonthYearDateField
             label="Start Date"
             htmlFor={`${item.id}-startDate`}
             required
-            placeholder="Month Year"
+            placeholder="MM/YYYY"
             value={item.startDate}
             error={errors.startDate}
             onChange={(value) => onChange({ startDate: value })}
           />
           {!item.current && (
-            <DateChipField
+            <MonthYearDateField
               label="End Date"
               htmlFor={`${item.id}-endDate`}
-              placeholder="Month Year"
+              placeholder="MM/YYYY"
               value={item.endDate}
               onChange={(value) => onChange({ endDate: value })}
             />

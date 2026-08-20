@@ -26,6 +26,9 @@ export function SkillsSection({ section, isEditing, onStopEdit }: Props) {
   if (isEditing) {
     return (
       <div className="flex flex-col gap-5">
+        <h2 className="border-b border-border pb-1 text-sm font-bold uppercase">
+          {section.title}
+        </h2>
         {draftItems.map((item, index) => {
           const itemErrors = errors[index] ?? {}
           return (
@@ -79,7 +82,7 @@ export function SkillsSection({ section, isEditing, onStopEdit }: Props) {
         {section.title}
       </h2>
       {section.items.map((item) => (
-        <p key={item.id} className="text-sm">
+        <p key={item.id} className="ml-2 mb-1 text-sm">
           <span
             className={
               item.category ? 'font-semibold' : 'font-normal text-muted-foreground'
